@@ -162,6 +162,10 @@ The leftover Hindi errors are mostly spelling variants in the transcript, such a
 within noise of each other, so the app keeps the official engine's sampler. An occasional take can still slip; press
 Speak again.
 
+## License
+
+[Apache-2.0](LICENSE). Third-party components keep their own licenses, listed below.
+
 ## Credits
 
 Maya 2 Native weights and inference code: Apache-2.0, [Maya Research](https://huggingface.co/maya-research/maya2-native)
