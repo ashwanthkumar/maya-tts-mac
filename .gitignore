@@ -1,0 +1,20 @@
+# environments
+.venv/
+.venv-ref/
+
+# the built app bundle (machine-specific: its launcher points at the folder it was built in)
+dist/
+
+# Python
+__pycache__/
+*.pyc
+
+# generated audio and scratch output
+out/
+*.wav
+
+# macOS
+.DS_Store
+
+# Claude Code session state
+.claude/

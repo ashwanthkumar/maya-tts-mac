@@ -1,0 +1,10 @@
+# runtime (Apple Silicon, macOS 14+, Python 3.12)
+mlx-audio==0.6.2
+mlx==0.32.4
+tokenizers>=0.22
+huggingface_hub>=1.0
+numpy>=2.0
+scipy>=1.13
+soundfile>=0.12
+sounddevice>=0.5
+PySide6>=6.8
