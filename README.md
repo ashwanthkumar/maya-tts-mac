@@ -126,22 +126,6 @@ third_party/maya2-native/   the official inference code (Apache-2.0), vendored a
 tests/               checks against the official PyTorch implementation
 ```
 
-## The bug that sounded almost right
-
-The first working port produced speech that sounded natural but garbled about one word in four, while every
-numerical check against the official code passed. The cause was one constant: the epsilon inside the RMSNorm that
-scales each audio frame's embedding before it re-enters the backbone (`audio_in`, a `torch.nn.RMSNorm(eps=None)`).
-
-With `eps=None`, PyTorch derives the epsilon from the data type. The model runs in bfloat16, so the obvious choice is
-bfloat16's epsilon, 2^-7. But PyTorch computes this op in fp32 and uses the fp32 epsilon, 1.2e-7. These embeddings are
-tiny (pre-norm mean square about 2.5e-3), so 2^-7 shrank every frame's input about 2x. Whisper character error rate,
-5 takes per sentence:
-
-| normalisation epsilon | English | Hindi | Tamil |
-|---|---|---|---|
-| 2^-7 (bfloat16) | 0.198 | 0.436 | 0.516 |
-| 1.2e-7 (what PyTorch uses) | 0.000 | 0.041 | 0.009 |
-
 ## Verification
 
 The official code needs PyTorch and `transformers==5.6.2`, while mlx-audio needs a newer transformers, so the
