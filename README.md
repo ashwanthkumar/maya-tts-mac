@@ -37,13 +37,15 @@ You need an Apple Silicon Mac on macOS 14 or later, about 7 GB of free disk spac
 2. Get the code and create the environment:
 
    ```bash
-   git clone https://github.com/ashwanthkumar/maya-tts-mac.git
+   git clone --recursive https://github.com/ashwanthkumar/maya-tts-mac.git
    cd maya-tts-mac
    uv venv --python 3.12 .venv
    uv pip install --python .venv/bin/python -r requirements.txt
    ```
 
-   This installs MLX, mlx-audio, PySide6, sounddevice and a few small libraries. PyTorch is not needed.
+   `--recursive` also fetches the official Maya 2 Native code (a git submodule in `third_party/maya2-native`), whose
+   text normaliser the app uses. If you cloned without it, run `git submodule update --init`. The install step adds
+   MLX, mlx-audio, PySide6, sounddevice and a few small libraries. PyTorch is not needed.
 
 3. Run it:
 
@@ -120,9 +122,8 @@ maya2_mlx/           the model in MLX, built on mlx-audio
 app/                 the Qt window (main.py), the streaming multi-device player (player.py), the capped log
                      (logcap.py) and the .app entry point (launch.py)
 scripts/             make_app.sh builds the .app bundle; make_icon.py draws its icon
-third_party/maya2-native/   the official inference code (Apache-2.0), vendored at the commit in
-                     third_party/MAYA2_NATIVE_COMMIT; the app imports only its text normaliser and guards (pure
-                     Python); the rest is the test reference
+third_party/maya2-native/   git submodule: the official inference code (Apache-2.0), pinned to one commit; the app
+                     imports only its text normaliser and guards (pure Python); the rest is the test reference
 tests/               checks against the official PyTorch implementation
 ```
 
@@ -169,6 +170,6 @@ Speak again.
 ## Credits
 
 Maya 2 Native weights and inference code: Apache-2.0, [Maya Research](https://huggingface.co/maya-research/maya2-native)
-(vendored copy and its license in `third_party/maya2-native`). Mimi codec: CC-BY-4.0,
+(included as a git submodule in `third_party/maya2-native`). Mimi codec: CC-BY-4.0,
 [Kyutai](https://huggingface.co/kyutai/mimi). Built on [mlx-audio](https://github.com/Blaizzy/mlx-audio) and
 [MLX](https://github.com/ml-explore/mlx).

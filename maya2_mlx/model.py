@@ -37,6 +37,9 @@ from .prompt import (AEOS_CLASS, KIND_AEOS, KIND_AUDIO, LANGS, N_CODES, N_Q, Pac
                      load_named_voices, load_prior, split_text)
 
 VENDOR = Path(__file__).resolve().parents[1] / "third_party" / "maya2-native"
+if not (VENDOR / "maya3" / "text").is_dir():
+    raise ImportError(f"{VENDOR} is empty: the Maya 2 Native submodule is missing. Run "
+                      "`git submodule update --init` in the project folder (or clone with --recursive).")
 if str(VENDOR) not in sys.path:
     sys.path.insert(0, str(VENDOR))          # maya3.text (normaliser) and maya3.guards are pure python / numpy
 
